@@ -12,6 +12,8 @@ var _stringify = require('babel-runtime/core-js/json/stringify');
 
 var _stringify2 = _interopRequireDefault(_stringify);
 
+var fs = require('fs');
+
 var sync = function () {
     var _ref = (0, _asyncToGenerator3.default)( /*#__PURE__*/_regenerator2.default.mark(function _callee() {
         var log, config, APP_ID, APP_KEY, publicDir, UrlsFile, urls, currentUser, userName, passWord, Counter, memoFile, memoData, memoIdx, newData, cnt, limit, env;
@@ -46,8 +48,13 @@ var sync = function () {
                             break;
                         }
 
-                        userName = config.leancloud_counter_security.username;
-                        passWord = config.leancloud_counter_security.password;
+                        var data = fs.readFileSync(this.public_dir+'../node_modules/hexo-leancloud-counter-security/tmp', 'utf8');
+                        var userpass = data.substr(0,data.length-1).split('#');
+                        userName = userpass[0];
+                        passWord = userpass[1];
+
+                        //userName = config.leancloud_counter_security.username;
+                        //passWord = config.leancloud_counter_security.password;
 
                         if (!userName) {
                             userName = readlineSync.question('Enter your username: ');
